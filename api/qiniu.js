@@ -1,6 +1,7 @@
-const qiniu = require("qiniu");
-qiniu.conf.ACCESS_KEY = 'qqma0f1S7NCpqULAbweW9Wc-RQ51riX9taoRydmq';
-qiniu.conf.SECRET_KEY = 'dASmCaR0St7vIcCikzdPqo25_f3vtlfgR7tCVKQQ';
+const qiniu = require('qiniu');
+const key = require('key');
+qiniu.conf.ACCESS_KEY = key.ACCESS_KEY;
+qiniu.conf.SECRET_KEY = key.SECRET_KEY;
 
 exports.public = (key) => {
     let mac = new qiniu.auth.digest.Mac();
