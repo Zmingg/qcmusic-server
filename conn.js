@@ -2,10 +2,10 @@ let mysql = require('mysql');
 
 let connection = mysql.createConnection({
     host : '127.0.0.1',
-    port:'3306',
+    port:'9987',
     user : 'root',
     password : 'blank1987',
-    database : 'qcblog'
+    database : 'qc'
 });
 
 connection.connect();
