@@ -23,6 +23,7 @@ exports.get = function (params) {
                     let audio = rows[0];
                     audio.src = api.private('audio/'+audio.src);
                     audio.disc_img = api.public('image/'+audio.disc_img);
+                    audio.lyric = api.public('lyric/'+audio.lyric);
                     audio.expire = parseInt(Date.now() / 1000) + 3600;
                     callback(err, audio);
                 });
