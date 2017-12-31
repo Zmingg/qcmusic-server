@@ -1,5 +1,5 @@
 const qiniu = require('qiniu');
-const key = require('key');
+const key = require('./key');
 qiniu.conf.ACCESS_KEY = key.ACCESS_KEY;
 qiniu.conf.SECRET_KEY = key.SECRET_KEY;
 
