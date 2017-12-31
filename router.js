@@ -13,8 +13,6 @@ let res = (handle) => {
 
 module.exports = (app) => {
 
-    app.get('/',res.render('app/index'));
-
     app.get('/lists', res(list.all));
     app.get('/list/:lid', res(list.get));
 
