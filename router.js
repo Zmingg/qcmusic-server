@@ -17,6 +17,7 @@ module.exports = (app) => {
     app.get('/list/:lid', res(list.get));
 
     app.get('/audios', res(audio.all));
+    app.get('/audios/hot', res(audio.hot));
     app.get('/audio/:aid', res(audio.get));
 
     app.get('/discs', res(disc.all));
