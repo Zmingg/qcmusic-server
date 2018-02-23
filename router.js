@@ -1,15 +1,17 @@
-let list = require('./model/list');
-let audio = require('./model/audio');
-let disc = require('./model/disc');
-let search = require('./model/search');
+const list = require('./model/list');
+const audio = require('./model/audio');
+const disc = require('./model/disc');
+const search = require('./model/search');
 
 let res = (handle) => {
     return (req, res) => {
-        handle(req.params).then((data) => {
+        handle(req, (data) => {
             res.send(data);
         });
     }
 };
+
+const { uploadToken } = require('./api/qiniu');
 
 module.exports = (app) => {
 
@@ -25,5 +27,9 @@ module.exports = (app) => {
 
     app.get('/hot_keys', res(search.hot));
     app.get('/search/:key', res(search.search));
+
+    app.get('/upload_token', (req,res)=>{
+        res.send(uploadToken());
+    });
 
 };

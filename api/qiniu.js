@@ -20,3 +20,14 @@ exports.private = (key) => {
     let deadline = parseInt(Date.now() / 1000) + 3600; // 1小时过期
     return bucketManager.privateDownloadUrl(privateBucketDomain, key, deadline);
 };
+
+exports.uploadToken = () => {
+    let options = {
+        scope: 'qcmusic-audios'
+    };
+    let putPolicy = new qiniu.rs.PutPolicy(options);
+    let mac = new qiniu.auth.digest.Mac(key.ACCESS_KEY, key.SECRET_KEY);
+    return {
+        uptoken: putPolicy.uploadToken(mac)
+    }
+};
