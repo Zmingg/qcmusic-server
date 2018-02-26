@@ -28,6 +28,7 @@ exports.uploadToken = () => {
     let putPolicy = new qiniu.rs.PutPolicy(options);
     let mac = new qiniu.auth.digest.Mac(key.ACCESS_KEY, key.SECRET_KEY);
     return {
+        ok: true,
         uptoken: putPolicy.uploadToken(mac)
     }
 };

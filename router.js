@@ -2,6 +2,7 @@ const list = require('./model/list');
 const audio = require('./model/audio');
 const disc = require('./model/disc');
 const search = require('./model/search');
+const singer = require('./model/singer');
 
 let res = (handle) => {
     return (req, res) => {
@@ -11,6 +12,7 @@ let res = (handle) => {
     }
 };
 
+const multer = require('multer');
 const { uploadToken } = require('./api/qiniu');
 
 module.exports = (app) => {
@@ -21,6 +23,9 @@ module.exports = (app) => {
     app.get('/audios', res(audio.all));
     app.get('/audios/hot', res(audio.hot));
     app.get('/audio/:aid', res(audio.get));
+    app.post('/audio/create', multer().none(), res(audio.create));
+
+    app.get('/singers', res(singer.all));
 
     app.get('/discs', res(disc.all));
     app.get('/disc/:did', res(disc.get));
