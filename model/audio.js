@@ -46,7 +46,6 @@ exports.hot = function (req, callback) {
 };
 
 exports.create = function (req, callback) {
-    console.log(req.body)
     async.waterfall([
         function (callback) {
             let query = 'insert into `qcmusic_audios` (title,sub_title,lyric,did,src,count) values (?,?,?,?,?,0)';

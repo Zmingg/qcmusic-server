@@ -26,9 +26,16 @@ module.exports = (app) => {
     app.post('/audio/create', multer().none(), res(audio.create));
 
     app.get('/singers', res(singer.all));
+    app.get('/singer/:sid', res(singer.get));
+    app.post('/singer', multer().none(), res(singer.create));
+    app.put('/singer', multer().none(), res(singer.update));
+    app.delete('/singer', multer().none(), res(singer.delete));
 
     app.get('/discs', res(disc.all));
     app.get('/disc/:did', res(disc.get));
+    app.post('/disc', multer().none(), res(disc.create));
+    app.put('/disc', multer().none(), res(disc.update));
+    app.delete('/disc', multer().none(), res(disc.delete));
 
     app.get('/hot_keys', res(search.hot));
     app.get('/search/:key', res(search.search));
