@@ -21,14 +21,21 @@ exports.private = (key) => {
     return bucketManager.privateDownloadUrl(privateBucketDomain, key, deadline);
 };
 
-exports.uploadToken = () => {
+const scopes = {
+    'audio': 'qcmusic-audios',
+    'image': 'qcmusic',
+    'lyric': 'qcmusic'
+};
+
+exports.uploadToken = (req, callback) => {
+    let scope = scopes[req.body.prefix];
     let options = {
-        scope: 'qcmusic-audios'
+        scope: scope
     };
     let putPolicy = new qiniu.rs.PutPolicy(options);
     let mac = new qiniu.auth.digest.Mac(key.ACCESS_KEY, key.SECRET_KEY);
-    return {
+    callback({
         ok: true,
         uptoken: putPolicy.uploadToken(mac)
-    }
+    });
 };

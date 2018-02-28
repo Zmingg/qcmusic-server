@@ -46,7 +46,6 @@ exports.delete = function (req, callback) {
             });
         },
         function(rows, callback) {
-            console.log(rows)
             if (rows.length === 0) {
 
                 let query = 'delete from `qcmusic_discs` where did=?';
