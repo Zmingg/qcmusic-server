@@ -4,17 +4,27 @@ let asyncRes = require('./asyncRes');
 const api = require('../api/qiniu');
 
 exports.all = function (req, callback) {
-    let query = 'select * from `qcmusic_audios`';
+    let query = 'select a.*,a_g_s.*,d.title as disc,d.img as disc_img from `qcmusic_audios` a\n' +
+        'join (select aid,group_concat(singer separator \'/\') as singer from\n' +
+        '(select a_s.aid,s.name as singer from `qcmusic_audio_singer` a_s\n' +
+        'left join `qcmusic_singers` s on a_s.sid = s.sid) a_s_s\n' +
+        'group by aid\n' +
+        'order by aid DESC) a_g_s\n' +
+        'on a.aid = a_g_s.aid\n' +
+        'left join `qcmusic_discs` d on a.did = d.did';
     conn.query(query, asyncRes(callback));
 };
 
 exports.get = function (req, callback) {
-
-    let query = 'select a.*,a_s.sids from `qcmusic_audios` a\n' +
-        'join (select aid,group_concat(sid) as sids from `qcmusic_audio_singer`\n' +
-        'where aid = ?\n' +
-        'group by aid) a_s\n' +
-        'on a.aid = a_s.aid';
+    let query = 'select a.*,a_g_s.*,d.title as disc,d.img as disc_img from `qcmusic_audios` a\n' +
+        'join (select aid,group_concat(sid) as sids,group_concat(singer separator \'/\') as singer from\n' +
+        '(select a_s.aid,a_s.sid,s.name as singer from `qcmusic_audio_singer` a_s\n' +
+        'left join `qcmusic_singers` s on a_s.sid = s.sid) a_s_s\n' +
+        'group by aid\n' +
+        'order by aid DESC) a_g_s\n' +
+        'on a.aid = a_g_s.aid\n' +
+        'left join `qcmusic_discs` d on a.did = d.did\n' +
+        'where a.aid = ?\n';
     conn.query(query, req.params.aid, (err, result) => {
         return asyncRes(callback)(err, result[0])
     });

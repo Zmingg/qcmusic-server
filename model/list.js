@@ -8,10 +8,31 @@ exports.all = function (req, callback) {
     conn.query(query, asyncRes(callback));
 };
 
+exports.page = function (req, callback) {
+    let page = ~~req.body.page;
+    let query = 'select * from `qcmusic_lists` order by lid desc limit ?,10';
+    let offset = 10 * (page - 1);
+    conn.query(query, offset, (err, rows)=>{
+        query = 'SELECT count(*) as total from `qcmusic_lists`';
+        let lists = rows;
+        conn.query(query, offset, (err, rows)=>{
+            let total = rows[0].total;
+            let pages = Math.ceil(total/10);
+            asyncRes(callback)(err, {
+                lists: lists,
+                hasmore: pages > page,
+                curpage: page,
+                pages: pages,
+                total: total
+            });
+        });
+    });
+};
+
 exports.get = function (req, callback) {
     async.waterfall([
         function(callback) {
-            let query = 'select *,concat(\'' + imgUrl + '\',img) as img from `qcmusic_lists` where lid = ?';
+            let query = 'select * from `qcmusic_lists` where lid = ?';
             conn.query(query, req.params.lid, function(err, rows) {
                 callback(err, rows[0]);
             });
@@ -42,4 +63,31 @@ exports.get = function (req, callback) {
             }
         }
     ], asyncRes(callback));
+};
+
+exports.update = function (req, callback) {
+    let query = 'update `qcmusic_lists` set title=?, tags=?, aids=?, img=?, count=? where lid=?';
+    conn.query(query, [
+        req.body.title,
+        req.body.tags,
+        req.body.aids,
+        req.body.img,
+        req.body.count,
+        req.body.lid,
+    ], asyncRes(callback));
+};
+
+exports.create = function (req, callback) {
+    let query = 'insert into `qcmusic_lists` (title,tags,aids,img,count) values (?,?,?,?,0)';
+    conn.query(query, [
+        req.body.title,
+        req.body.tags,
+        req.body.aids,
+        req.body.img,
+    ], asyncRes(callback));
+};
+
+exports.delete = function (req, callback) {
+    let query = 'delete from `qcmusic_lists` where lid=?';
+    conn.query(query, req.body.lid, asyncRes(callback));
 };

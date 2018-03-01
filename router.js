@@ -20,6 +20,10 @@ module.exports = (app) => {
 
     app.get('/lists', res(list.all));
     app.get('/list/:lid', res(list.get));
+    app.post('/list/page', multer().none(), res(list.page));
+    app.post('/list', multer().none(), res(list.create));
+    app.put('/list', multer().none(), res(list.update));
+    app.delete('/list', multer().none(), res(list.delete));
 
     app.get('/audios', res(audio.all));
     app.get('/audios/hot', res(audio.hot));
