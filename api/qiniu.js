@@ -11,7 +11,7 @@ exports.private = (req, callback) => {
     let bucketManager = new qiniu.rs.BucketManager(mac, config);
     let privateBucketDomain = privateDomain;
     let deadline = parseInt(Date.now() / 1000) + 3600; // 1小时过期
-    let key = req.params.key;
+    let key = req.body.key;
     let url = bucketManager.privateDownloadUrl(privateBucketDomain, key, deadline);
     callback({ok: true, data: {
         src: url,

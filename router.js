@@ -29,7 +29,7 @@ module.exports = (app) => {
     app.post('/audio', multer().none(), res(audio.create));
     app.put('/audio', multer().none(), res(audio.update));
     app.delete('/audio', multer().none(), res(audio.delete));
-    app.get('/audio/url/:key', res(qiniu.private));
+    app.put('/audio/url', multer().none(), res(qiniu.private));
 
     app.get('/singers', res(singer.all));
     app.get('/singer/:sid', res(singer.get));
