@@ -1,10 +1,9 @@
 let conn = require('../conn');
 let async = require('async');
 let asyncRes = require('./asyncRes');
-let imgUrl = 'http://oxjyut4f0.bkt.clouddn.com/image/';
 
 exports.all = function (req, callback) {
-    let query = 'select *,concat(\'' + imgUrl + '\',img) as img from `qcmusic_lists`';
+    let query = 'select * from `qcmusic_lists`';
     conn.query(query, asyncRes(callback));
 };
 
