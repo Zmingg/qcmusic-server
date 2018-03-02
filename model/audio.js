@@ -70,13 +70,14 @@ exports.hot = function (req, callback) {
 exports.create = function (req, callback) {
     async.waterfall([
         function (callback) {
-            let query = 'insert into `qcmusic_audios` (title,sub_title,lyric,did,src,count) values (?,?,?,?,?,0)';
+            let query = 'insert into `qcmusic_audios` (title,sub_title,lyric,did,src,hq,count) values (?,?,?,?,?,?,0)';
             conn.query(query, [
                 req.body.title,
                 req.body.sub_title,
                 req.body.lyric,
                 req.body.did,
-                req.body.src
+                req.body.src,
+                req.body.hq
             ], function (err, result) {
                 callback(err, result.insertId);
             });
@@ -102,13 +103,14 @@ exports.create = function (req, callback) {
 exports.update = function (req, callback) {
     async.waterfall([
         function (callback) {
-            let query = 'update `qcmusic_audios` set title=?,sub_title=?,lyric=?,did=?,src=?,count=? where aid=?';
+            let query = 'update `qcmusic_audios` set title=?,sub_title=?,lyric=?,did=?,src=?,hq=?,count=? where aid=?';
             conn.query(query, [
                 req.body.title,
                 req.body.sub_title,
                 req.body.lyric,
                 req.body.did,
                 req.body.src,
+                req.body.hq,
                 req.body.count,
                 req.body.aid
             ], function (err, result) {
