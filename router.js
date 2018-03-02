@@ -3,6 +3,8 @@ const audio = require('./model/audio');
 const disc = require('./model/disc');
 const search = require('./model/search');
 const singer = require('./model/singer');
+const qiniu = require('./api/qiniu');
+const multer = require('multer');
 
 let res = (handle) => {
     return (req, res) => {
@@ -11,10 +13,6 @@ let res = (handle) => {
         });
     }
 };
-
-
-const multer = require('multer');
-const { uploadToken } = require('./api/qiniu');
 
 module.exports = (app) => {
 
@@ -31,6 +29,7 @@ module.exports = (app) => {
     app.post('/audio', multer().none(), res(audio.create));
     app.put('/audio', multer().none(), res(audio.update));
     app.delete('/audio', multer().none(), res(audio.delete));
+    app.get('/audio/url/:key', res(qiniu.private));
 
     app.get('/singers', res(singer.all));
     app.get('/singer/:sid', res(singer.get));
@@ -47,6 +46,6 @@ module.exports = (app) => {
     app.get('/hot_keys', res(search.hot));
     app.get('/search/:key', res(search.search));
 
-    app.post('/upload_token', multer().none(), res(uploadToken));
+    app.post('/upload_token', multer().none(), res(qiniu.uploadToken));
 
 };
