@@ -39,7 +39,7 @@ exports.get = function (req, callback) {
         function(list, callback) {
             let aids = list.aids.split(',');
             list.audios = [];
-            let query = 'select a.*,t_s.*,d.title as disc from `qcmusic_audios` a\n' +
+            let query = 'select a.*,t_s.*,d.title as disc,d.img as disc_img from `qcmusic_audios` a\n' +
                 'join (select aid,group_concat(singer separator \'/\') as singer from\n' +
                 '(select qs.aid,s.name as singer from `qcmusic_audio_singer` qs\n' +
                 'left join `qcmusic_singers` s on qs.sid = s.sid\n' +
