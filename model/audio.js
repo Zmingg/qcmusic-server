@@ -79,6 +79,7 @@ exports.create = function (req, callback) {
                 req.body.src,
                 req.body.hq
             ], function (err, result) {
+                console.log(err)
                 callback(err, result.insertId);
             });
         },
